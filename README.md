@@ -63,9 +63,9 @@ animais.
 Quantidade de cachorros: 3
 Quantidade de gatos: 3
 Estoque: map[string]int{
-    "Ração para cachorro": 2,
-    "Ração para gato": 2,
-    "Ração universal": 1,
+    "dog": 2,
+    "cat": 2,
+    "universal": 1,
 }
 ```
 
