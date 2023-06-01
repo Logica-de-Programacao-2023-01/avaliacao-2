@@ -21,5 +21,26 @@ type Participant struct {
 }
 
 func CalculateTeams(participants []Participant) int {
-	return 0
+	var (
+		programmersCount    int
+		mathematiciansCount int
+	)
+
+	for _, participant := range participants {
+		switch participant.Role {
+		case "Programmer":
+			programmersCount++
+		case "Mathematician":
+			mathematiciansCount++
+		}
+	}
+
+	return min((programmersCount+mathematiciansCount)/4, min(programmersCount, mathematiciansCount))
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }

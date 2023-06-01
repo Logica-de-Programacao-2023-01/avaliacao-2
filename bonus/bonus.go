@@ -14,5 +14,21 @@ type LinkedList struct {
 }
 
 func InvertLinkedList(list *LinkedList) {
+	var (
+		currentNode *Node
+		nextNode    *Node
+	)
 
+	currentNode = list.Head
+	nextNode = list.Head.Next
+	currentNode.Next = nil
+
+	for nextNode != nil {
+		temp := nextNode.Next
+		nextNode.Next = currentNode
+		currentNode = nextNode
+		nextNode = temp
+	}
+
+	list.Head = currentNode
 }

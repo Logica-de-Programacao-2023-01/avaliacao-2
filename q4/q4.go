@@ -1,5 +1,11 @@
 package q4
 
+import (
+	"errors"
+	"math"
+	"strings"
+)
+
 //Receba uma lista de camisas, cada uma contendo o preço e o tamanho. O tamanho da camisa é representado por uma string,
 //que pode ser "M" ou uma combinação de caracteres "X" seguida por "S" ou "L".
 //
@@ -37,5 +43,41 @@ type Shirt struct {
 }
 
 func CalculateAveragePrice(shirts []Shirt) (max float64, min float64, err error) {
-	return 0, 0, nil
+	if len(shirts) == 0 {
+		return 0, 0, errors.New("no shirts")
+	}
+
+	shirtsMap := make(map[int][]float64)
+
+	var (
+		minSize = math.MaxInt
+		maxSize = math.MinInt
+	)
+
+	for _, shirt := range shirts {
+		var result int
+		switch {
+		case strings.Contains(shirt.Size, "S"):
+			result = -1 - (10 * strings.Count(shirt.Size, "X"))
+		case strings.Contains(shirt.Size, "L"):
+			result = 1 + (10 * strings.Count(shirt.Size, "X"))
+		}
+		shirtsMap[result] = append(shirtsMap[result], shirt.Price)
+		if result < minSize {
+			minSize = result
+		}
+		if result > maxSize {
+			maxSize = result
+		}
+	}
+
+	return calculateAverage(shirtsMap[maxSize]), calculateAverage(shirtsMap[minSize]), nil
+}
+
+func calculateAverage(prices []float64) float64 {
+	var sum float64
+	for _, price := range prices {
+		sum += price
+	}
+	return sum / float64(len(prices))
 }
